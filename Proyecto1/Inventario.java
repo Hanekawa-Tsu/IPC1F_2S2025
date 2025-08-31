@@ -21,6 +21,38 @@ public class Inventario {
             System.out.println("7-Bitacora");
             System.out.println("8-Salir");
 
-            
+            try{
+                opcion = Integer.parseInt(scanner.nextLine());
+                
+                switch (opcion) {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        System.out.println("Sesion Finalizada");
+                        break;
+                    default:
+                        System.out.println("Opcion invalida");
+                        break;
+                }
+            }catch (NumberFormatException e){
+                    System.out.println("Error");
+                    opcion = 0;
+            }
+
+        }while (opcion !=8);
+        scanner.close();
     }
 }
