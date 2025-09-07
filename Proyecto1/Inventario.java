@@ -48,7 +48,7 @@ public class Inventario {
                        
                     case 8:
                         System.out.println("Sesion Finalizada"); //Fin
-                        break;
+                        break; //Sirve para salir del swirch
                     default:
                         System.out.println("Opcion invalida"); // Error
                         
@@ -65,6 +65,7 @@ public class Inventario {
     // Agregar producto
     public static void Aproducto(Scanner scanner){
 
+        boolean negativo = false;
         do{
             System.out.println("Nombre del producto: ");
             String nombre = scanner.nextLine();
@@ -81,17 +82,15 @@ public class Inventario {
             System.out.println("Codigo de 9 digitos");
             int codigo = scanner.nextInt();
 
-            int opcion2; //Pendiente de cambiar se agregros solo para probar el codigo
-            opcion2 = Integer.parseInt(scanner.nextLine());
-            switch (opcion2) {
-                case 1:
-                    
-                    break;
-            
-                default:
-                    break;
-            }while(opcion2 !=2);
-         scanner.close();
+           if(precio < 0){ // si el precio del producto es negativo
+                System.out.println("Error el precio del producto es negativo");
+                negativo = true; 
+           }
+
+           if (cantidad < 0) {
+                System.out.println("Error la cantidasd del producto es negativo");
+                negativo = true; 
+           }
 
         }
     }
