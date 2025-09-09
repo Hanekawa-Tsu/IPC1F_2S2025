@@ -27,25 +27,25 @@ public class Inventario {
                 switch (opcion) {
                     case 1:
                         Aproducto(scanner); //Aproducto = Agregar producto
-                       
+                        break;
                     case 2:
                         Bproducto(scanner); //Bprodcuto = Buscar producto
-                    
+                        break;
                     case 3:
                         Eproducto(scanner); // Eproducto = Eliminar producto
-                        
+                        break;
                     case 4:
                         Rventa(scanner); // Rventa = Registrar venta
-                        
+                        break;
                     case 5:
                         Greporte(scanner); // Greporte = Generar reporte
-                        
+                        break;
                     case 6:
                         Vestudiante(scanner); // Vestudiante = Ver datos de estudiante
-                        
+                        break;
                     case 7:
                         Bitacora(scanner); // Bitacora
-                       
+                        break;
                     case 8:
                         System.out.println("Sesion Finalizada"); //Fin
                         break; //Sirve para salir del swirch
@@ -65,38 +65,54 @@ public class Inventario {
     // Agregar producto
     public static void Aproducto(Scanner scanner){
 
-        boolean negativo = false;
-        do{
-            System.out.println("Nombre del producto: ");
-            String nombre = scanner.nextLine();
+        String[][] invmatriz= new String[50][5]; //[#Espacio de almacenamineto][datos de producto]
+        int contarfila = 0; //conteo de la fila
 
-            System.out.println("Categoria: ");
-            String categoria = scanner.nextLine();
+        if (contarfila >= 50) { //
+            System.out.println("Inventario lleno");
+            return;
+        } 
 
-            System.out.println("Precio: ");
-            Float precio = scanner.nextFloat(); //Al ingresar decimales usa "," (la coma) el punto puede dar error
+
+        System.out.print("Nombre del producto: ");
+        String nombre = scanner.nextLine();
+
+        System.out.print("Categoria: ");
+        String categoria = scanner.nextLine();
+
+        System.out.print("Precio: ");
+        Float precio = scanner.nextFloat(); //Al ingresar decimales usa "," (la coma) el punto puede dar error
+        scanner.nextLine(); //limpia el buffer del scanner
         
-            System.out.println("Cantidad de Stock");
-            int cantidad = scanner.nextInt();
+        System.out.print("Cantidad de Stock: ");
+        int cantidad = scanner.nextInt();
+        scanner.nextLine();
 
-            System.out.println("Codigo de 9 digitos");
-            int codigo = scanner.nextInt();
+        System.out.print("Codigo de 9 digitos: ");
+        int codigo = scanner.nextInt();
+        scanner.nextLine();
 
-           if(precio < 0){ // si el precio del producto es negativo
-                System.out.println("Error el precio del producto es negativo");
-                negativo = true; 
-           }
-
-           if (cantidad < 0) {
-                System.out.println("Error la cantidasd del producto es negativo");
-                negativo = true; 
-           }
-
+        if(precio < 0 || cantidad < 0){ // si el precio del producto es negativo
+            System.out.println("Error el precio o la cantidad del producto es negativo");
+            return;
         }
-    }
 
-    // Puede cambiar **no tocar**
+        invmatriz[contarfila][0]= nombre;
+        invmatriz[contarfila][1]= categoria;
+        invmatriz[contarfila][2]= String.valueOf(precio); //Convierte el floar a String - "convierte de # reales a texto"
+        invmatriz[contarfila][3]= String.valueOf(cantidad); //Convierte el int a String - "convierte de # entero a texto"
+        invmatriz[contarfila][4]= String.valueOf(codigo); //Convierte el int a String - "convierte de # entero a texto"
+    
+        contarfila++;
+        System.out.println("Datos guardados \n");
+    }    
+
+    
     public static void Bproducto(Scanner scanner){
+        String buscar;
+
+        System.out.println("Escriba el nombre del producto");
+        buscar =scanner.nextLine(); 
 
     }
 
