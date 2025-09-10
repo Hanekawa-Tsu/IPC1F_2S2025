@@ -10,7 +10,7 @@ public class Inventario {
         int opcion;
 
         do{
-            System.out.println("Menu de Gestor de Productos");
+            System.out.println("--------- Menu de Gestor de Productos --------- \n");
             System.out.println("Selecciones una Opcion ingresando el Numero");
             System.out.println("1-Agregar Producto");
             System.out.println("2-Buscar Producto");
@@ -50,11 +50,11 @@ public class Inventario {
                         System.out.println("Sesion Finalizada"); //Fin
                         break; //Sirve para salir del swirch
                     default:
-                        System.out.println("Opcion invalida"); // Error
+                        System.out.println("Opcion invalida \n"); // Error
                         
                 }
             }catch (NumberFormatException e){
-                    System.out.println("Error");
+                    System.out.println("Error \n");
                     opcion = 0;
             }
 
@@ -62,17 +62,15 @@ public class Inventario {
         scanner.close();
     }
 
+    public static String[][] invmatriz = new String[50][5]; //[#Espacio de almacenamineto][datos de producto], invmatriz = matriz de inventario
+    public static int contarfila = 0; //conteo de la fila
     // Agregar producto
     public static void Aproducto(Scanner scanner){
-
-        String[][] invmatriz= new String[50][5]; //[#Espacio de almacenamineto][datos de producto]
-        int contarfila = 0; //conteo de la fila
 
         if (contarfila >= 50) { //
             System.out.println("Inventario lleno");
             return;
         } 
-
 
         System.out.print("Nombre del producto: ");
         String nombre = scanner.nextLine();
@@ -92,27 +90,74 @@ public class Inventario {
         int codigo = scanner.nextInt();
         scanner.nextLine();
 
-        if(precio < 0 || cantidad < 0){ // si el precio del producto es negativo
-            System.out.println("Error el precio o la cantidad del producto es negativo");
-            return;
-        }
-
         invmatriz[contarfila][0]= nombre;
         invmatriz[contarfila][1]= categoria;
         invmatriz[contarfila][2]= String.valueOf(precio); //Convierte el floar a String - "convierte de # reales a texto"
         invmatriz[contarfila][3]= String.valueOf(cantidad); //Convierte el int a String - "convierte de # entero a texto"
         invmatriz[contarfila][4]= String.valueOf(codigo); //Convierte el int a String - "convierte de # entero a texto"
-    
+
         contarfila++;
         System.out.println("Datos guardados \n");
     }    
 
-    
     public static void Bproducto(Scanner scanner){
-        String buscar;
+        System.out.println("--- Busqueda de Producto ---");
+        System.out.println("Buscar por: ");
+        System.out.println("1. Nombre");
+        System.out.println("2. Categoria");
+        System.out.println("3. Codigo");
+        
+        String tipobuscar = scanner.nextLine();
+        
+        System.out.print("Ingrese el valor a buscar: ");
+        String buscar = scanner.nextLine().toLowerCase(); // Convertir a minusculas para una busqueda mejor
 
-        System.out.println("Escriba el nombre del producto");
-        buscar =scanner.nextLine(); 
+        int productosEncontrados = 0;
+
+        for (int i = 0; i < contarfila; i++) {
+            String nombre = invmatriz[i][0].toLowerCase();
+            String categoria = invmatriz[i][1].toLowerCase();
+            String codigo = invmatriz[i][4];
+
+            boolean encontrado = false;
+            
+            switch (tipobuscar) {
+                case "1": // Busca por nombre
+                    if (nombre.contains(buscar)) { // 
+                        encontrado = true;
+                    }
+                    break;
+                case "2": // Busca por categoría
+                    if (categoria.contains(buscar)) {
+                        encontrado = true;
+                    }
+                    break;
+                case "3": // Busca por codigo
+                    if (codigo.equals(buscar)) {
+                        encontrado = true;
+                    }
+                    break;
+                default:
+                    System.out.println("Opcion de busqueda invalida. \n");
+                    return;
+            }
+
+            if (encontrado) {
+                System.out.println("------------------------------------");
+                System.out.println("Producto Encontrado:");
+                System.out.println("Nombre: " + invmatriz[i][0]);
+                System.out.println("Categoria: " + invmatriz[i][1]);
+                System.out.println("Precio: " + invmatriz[i][2]);
+                System.out.println("Stock: " + invmatriz[i][3]);
+                System.out.println("Codigo: " + invmatriz[i][4]);
+                System.out.println("------------------------------------");
+                productosEncontrados++;
+            }
+        }
+
+        if (productosEncontrados == 0) {
+            System.out.println("No se encontro ningun producto con ese criterio. \n");
+        }
 
     }
 
