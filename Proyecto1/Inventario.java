@@ -1,3 +1,8 @@
+import java.io.FileWriter; //Sirve para crear el archivo .txt
+import java.io.IOException; //Sirve para que no haya errores al momento de crear el archivo .txt
+import java.io.PrintWriter; //Sirve para escribir el archivo .txt
+import java.text.SimpleDateFormat; // Nos ayuda con el formato de fecha y hora
+import java.util.Date; // Nos ayuda para obtener la fecha y hora
 import java.util.Scanner;
 
 public class Inventario {
@@ -6,6 +11,7 @@ public class Inventario {
     public static void main(String[] args) {
         
         Scanner scanner = new Scanner(System.in);
+        String estudiante = "Estudiante 9"; //Ejemplo del usuario (Estudiante) 
 
         int opcion;
 
@@ -23,25 +29,25 @@ public class Inventario {
 
             try{
                 opcion = Integer.parseInt(scanner.nextLine());
-                
+
                 switch (opcion) {
                     case 1:
-                        Aproducto(scanner); //Aproducto = Agregar producto
+                        Aproducto(scanner, estudiante); //Aproducto = Agregar producto
                         break;
                     case 2:
-                        Bproducto(scanner); //Bprodcuto = Buscar producto
+                        Bproducto(scanner, estudiante); //Bprodcuto = Buscar producto
                         break;
                     case 3:
-                        Eproducto(scanner); // Eproducto = Eliminar producto
+                        Eproducto(scanner, estudiante); // Eproducto = Eliminar producto
                         break;
                     case 4:
-                        Rventa(scanner); // Rventa = Registrar venta
+                        Rventa(scanner, estudiante); // Rventa = Registrar venta
                         break;
                     case 5:
-                        Greporte(scanner); // Greporte = Generar reporte
+                        Greporte(scanner, estudiante); // Greporte = Generar reporte
                         break;
                     case 6:
-                        Vestudiante(scanner); // Vestudiante = Ver datos de estudiante
+                        Vestudiante(scanner, estudiante); // Vestudiante = Ver datos de estudiante
                         break;
                     case 7:
                         Bitacora(scanner); // Bitacora
@@ -51,24 +57,30 @@ public class Inventario {
                         break; //Sirve para salir del swirch
                     default:
                         System.out.println("Opcion invalida \n"); // Error
-                        
+                        RBitacora("Seleccion de menu", "Erronea", estudiante);
                 }
             }catch (NumberFormatException e){
                     System.out.println("Error \n");
                     opcion = 0;
+                    RBitacora("Entrada menu", "Erronea", estudiante);
             }
 
         }while (opcion !=8);
         scanner.close();
     }
 
+    //Variables
     public static String[][] invmatriz = new String[50][5]; //[#Espacio de almacenamineto][datos de producto], invmatriz = matriz de inventario
     public static int contarfila = 0; //conteo de la fila
-    // Agregar producto
-    public static void Aproducto(Scanner scanner){
+    public static String[][] bitacoraM = new String[100][4]; // Matriz para la bitacora, [100 acciones][4 datos / accion]
+    public static int ContarBitacora = 0; // Conteo de registros de la bitacora
 
-        if (contarfila >= 50) { //
+    // Agrega producto
+    public static void Aproducto(Scanner scanner, String estudiante){
+
+        if (contarfila >= 50) { // Tamaño de las filas de la matriz
             System.out.println("Inventario lleno");
+            RBitacora("Agregar producto", "Erronea", estudiante);
             return;
         } 
 
@@ -98,9 +110,10 @@ public class Inventario {
 
         contarfila++;
         System.out.println("Datos guardados \n");
+        RBitacora("Agregar producto", "Correcto", estudiante);
     }    
 
-    public static void Bproducto(Scanner scanner){
+    public static void Bproducto(Scanner scanner, String estudiante){
         System.out.println("--- Busqueda de Producto ---");
         System.out.println("Buscar por: ");
         System.out.println("1. Nombre");
@@ -141,7 +154,8 @@ public class Inventario {
                     System.out.println("Opcion de busqueda invalida. \n");
                     return;
             }
-
+            
+            //Obtiene los valores almacenados en la matriz segun la fia 
             if (encontrado) {
                 System.out.println("------------------------------------");
                 System.out.println("Producto Encontrado:");
@@ -157,14 +171,17 @@ public class Inventario {
 
         if (productosEncontrados == 0) {
             System.out.println("No se encontro ningun producto con ese criterio. \n");
+            RBitacora("Buscar producto", "Erronea", estudiante);
+        } else{
+            RBitacora("Seleccion de menu", "Correcto", estudiante);
         }
 
     }
 
-    public static void Eproducto(Scanner scanner) {
+    public static void Eproducto(Scanner scanner , String estudiante) {
     
-        
-        System.out.println("--- Eliminar Producto ---");
+        //Busca el codigo del producto
+        System.out.println("--- Eliminar Producto --- \n");
         System.out.print("Ingrese el codigo del producto a eliminar: ");
         String eliminar = scanner.nextLine();
 
@@ -178,34 +195,125 @@ public class Inventario {
         System.out.print("¿Esta seguro de que desea eliminar este producto? (si/no): ");
         String confirmacion = scanner.nextLine().toLowerCase();
 
-        if (confirmacion.equals("si"));{
+        if (confirmacion.equals("si")){
             for (int i = indice; i < contarfila - 1; i++) { // Elimina el producto moviendo los elementos restantes
                     invmatriz[i] = invmatriz[i + 1];
                 }
                 invmatriz[contarfila - 1] = new String[5]; // Limpiar el último elemento para evitar duplicados
                 contarfila--;
                 System.out.println("Producto eliminado exitosamente. \n");
-        } else{
-            System.out.println("Se cancelo la eliminacion");
+                RBitacora("Eliminar producto", "Correcto", estudiante);
+            } else{
+            System.out.println("Se cancelo la eliminacion \n");
+            RBitacora("Eliminar producto", "Erronea", estudiante);
         }
         
         
     }
 
-    public static void Rventa(Scanner scanner) {
-        
+    public static void Rventa(Scanner scanner , String estudiante) {
+        System.out.println("--- Registrar Venta ---");
+        // Busca el codigo del producto
+        System.out.print("Ingrese el codigo del producto a vender: ");
+        String Rcodigo = scanner.nextLine();
+
+        int indice = -1;
+        for (int i = 0; i < contarfila; i++) {
+            if (invmatriz[i][4].equals(Rcodigo)) { //Rcodigo = Registro de codigo
+                indice = i;
+                break;
+            }
+        }
+
+        if (indice == -1) {
+            System.out.println("Producto no encontrado.");
+            RBitacora("Registrar venta", "Erronea", estudiante);
+            return;
+        }
+        System.out.print("Ingrese la cantidad a vender: ");
+        int cantidadVendida = scanner.nextInt();
+        scanner.nextLine(); // Limpia el buffer
+
+        int stockActual = Integer.parseInt(invmatriz[indice][3]);
+
+        if (cantidadVendida > stockActual) {
+            System.out.println("No hay suficiente stock para realizar esta venta. Stock disponible: " + stockActual);
+            RBitacora("Registrar venta", "Erronea", estudiante);
+            return;
+        }
+
+        // Resta las unidades vendidas
+        int nuevoStock = stockActual - cantidadVendida;
+        invmatriz[indice][3] = String.valueOf(nuevoStock);
+
+        // Calcula el total de la venta
+        float precioProducto = Float.parseFloat(invmatriz[indice][2]);
+        float totalVenta = precioProducto * cantidadVendida;
+
+        // Obtiene la fecha y hora
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String fecha = sdf.format(new Date());
+
+        // Registra la venta en un archivo de texto
+        guardar(Rcodigo, cantidadVendida, fecha, totalVenta);
+
+        System.out.println("Venta registrada exitosamente. \n Nuevo stock para " + invmatriz[indice][0] + ": " + nuevoStock); //Manda mensaje del registro y cantidad disponible del producto
+        RBitacora("Registrar venta", "Correcto", estudiante);
     }
 
-    public static void Greporte(Scanner scanner) {
-        
+    public static void Greporte(Scanner scanner , String estudiante) {
+        System.out.println("Generando reporte de ventas... \n"); // Solo mensaje de generacion se creo un metodo aparte para guardar la informacion
+        RBitacora("Generar reporte", "Correcto", estudiante);
     }
 
-    public static void Vestudiante(Scanner scanner) {
+    //Método para guardar la venta en un archivo de texto
+    public static void guardar(String codigo, int cantidad, String fecha, float total) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("ventas.txt", true))) {
+            writer.println("Código: " + codigo + ", Cantidad: " + cantidad + ", Fecha y Hora: " + fecha + ", Total: " + total);
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo de ventas: " + e.getMessage());
+         }
+    }
+    
+
+
+    public static void Vestudiante(Scanner scanner, String estudiante) {
         
     }
 
     public static void Bitacora(Scanner scanner) {
+        System.out.println("--- Bitacora de Acciones ---");
+        if (ContarBitacora == 0) {
+            System.out.println("La bitacora esta vacia \n");
+        }
+
+        System.out.println("Fecha y Hora        | Tipo de Accion      | Estado     | Estudiante");
+        System.out.println("------------------------------------------------------------------");
+        for (int i = 0; i < ContarBitacora; i++) {
+            System.out.printf("%-20s| %-20s| %-11s| %s\n", // control de alineado y espaciado del texto
+                    bitacoraM[i][0], // % = posicion 
+                    bitacoraM[i][1], // - = aliniado a la izquierda
+                    bitacoraM[i][2], // # = ancho de caracteres
+                    bitacoraM[i][3]);
+        }
+    }
+
+    //Metodo para la registrar la bitacora 
+    public static void RBitacora(String accion, String estado, String estudiante) { //RBitacora = Registrar Bitacora
+        if (ContarBitacora >= 100){
+            return;
+        }
+
+        // Fecha y hora actual
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String fecha = sdf.format(new Date());
+
+        bitacoraM[ContarBitacora][0] = fecha;
+        bitacoraM[ContarBitacora][1] = accion;
+        bitacoraM[ContarBitacora][2] = estado;
+        bitacoraM[ContarBitacora][3] = estudiante;
         
+        ContarBitacora++;
     }
 
 
