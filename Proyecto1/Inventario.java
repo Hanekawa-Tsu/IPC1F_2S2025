@@ -162,6 +162,33 @@ public class Inventario {
     }
 
     public static void Eproducto(Scanner scanner) {
+    
+        
+        System.out.println("--- Eliminar Producto ---");
+        System.out.print("Ingrese el codigo del producto a eliminar: ");
+        String eliminar = scanner.nextLine();
+
+        int indice = -1;
+        for (int i = 0; i < contarfila; i++) {
+            if (invmatriz[i][4].equals(eliminar)) { // invmatriz[i][4] contiene el código del producto
+                indice = i;
+                break;
+            }
+        }
+        System.out.print("¿Esta seguro de que desea eliminar este producto? (si/no): ");
+        String confirmacion = scanner.nextLine().toLowerCase();
+
+        if (confirmacion.equals("si"));{
+            for (int i = indice; i < contarfila - 1; i++) { // Elimina el producto moviendo los elementos restantes
+                    invmatriz[i] = invmatriz[i + 1];
+                }
+                invmatriz[contarfila - 1] = new String[5]; // Limpiar el último elemento para evitar duplicados
+                contarfila--;
+                System.out.println("Producto eliminado exitosamente. \n");
+        } else{
+            System.out.println("Se cancelo la eliminacion");
+        }
+        
         
     }
 
