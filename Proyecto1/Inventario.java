@@ -112,7 +112,8 @@ public class Inventario {
         System.out.println("Datos guardados \n");
         RBitacora("Agregar producto", "Correcto", estudiante);
     }    
-
+    
+    // Buscar producto
     public static void Bproducto(Scanner scanner, String estudiante){
         System.out.println("--- Busqueda de Producto ---");
         System.out.println("Buscar por: ");
@@ -128,7 +129,7 @@ public class Inventario {
         int productosEncontrados = 0;
 
         for (int i = 0; i < contarfila; i++) {
-            String nombre = invmatriz[i][0].toLowerCase();
+            String nombre = invmatriz[i][0].toLowerCase(); 
             String categoria = invmatriz[i][1].toLowerCase();
             String codigo = invmatriz[i][4];
 
@@ -177,7 +178,8 @@ public class Inventario {
         }
 
     }
-
+    
+    // Eliminar producto
     public static void Eproducto(Scanner scanner , String estudiante) {
     
         //Busca el codigo del producto
@@ -210,7 +212,8 @@ public class Inventario {
         
         
     }
-
+    
+    // Registro de venta
     public static void Rventa(Scanner scanner , String estudiante) {
         System.out.println("--- Registrar Venta ---");
         // Busca el codigo del producto
@@ -260,7 +263,8 @@ public class Inventario {
         System.out.println("Venta registrada exitosamente. \n Nuevo stock para " + invmatriz[indice][0] + ": " + nuevoStock); //Manda mensaje del registro y cantidad disponible del producto
         RBitacora("Registrar venta", "Correcto", estudiante);
     }
-
+    
+    // Generar reporte -- No funcional --
     public static void Greporte(Scanner scanner , String estudiante) {
         System.out.println("Generando reporte de ventas... \n"); // Solo mensaje de generacion se creo un metodo aparte para guardar la informacion
         RBitacora("Generar reporte", "Correcto", estudiante);
@@ -275,12 +279,16 @@ public class Inventario {
          }
     }
     
-
-
+    // Ver datos de estudiante
     public static void Vestudiante(Scanner scanner, String estudiante) {
-        
+        System.out.println("--- Datos del Estudiante ---");
+        System.out.println("Nombre: " + estudiante);
+        System.out.println("ID del Estudiante: 202308450");
+        System.out.println("------------------------------------");
+        RBitacora("Ver datos de estudiante", "Correcto", estudiante);
     }
-
+    
+    //Bitacora
     public static void Bitacora(Scanner scanner) {
         System.out.println("--- Bitacora de Acciones ---");
         if (ContarBitacora == 0) {
