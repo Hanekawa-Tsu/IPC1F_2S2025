@@ -1,3 +1,9 @@
 {
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.project.sourcePaths": [
+        "Proyecto1",
+        "Practica1",
+        "IPC1_Ejercicios_202308450/Unidad 1/Ejercicio de pdf con matriz",
+        "IPC1_Ejercicios_202308450"
+    ]
 }
