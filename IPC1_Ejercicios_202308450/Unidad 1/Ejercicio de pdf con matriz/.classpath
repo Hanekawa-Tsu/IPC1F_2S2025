@@ -1,0 +1,7 @@
+<!-- filepath: c:\Users\Usuario\Documents\GitHub\IPCF_2S2025\IPC1_Ejercicios_202308450\Unidad 1\Ejercicio de pdf con matriz\.classpath -->
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="src" path="src"/>
+    <classpathentry kind="lib" path="lib/itextpdf-5.5.12.jar"/>
+</classpath>

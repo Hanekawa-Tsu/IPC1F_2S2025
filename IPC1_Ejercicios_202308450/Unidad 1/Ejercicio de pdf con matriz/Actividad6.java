@@ -1,10 +1,10 @@
-import com.itexpdf.text.Document;
-import com.itexpdf.text.DocumentException;
-import com.itexpdf.text.pdf.PdfPTable;
-import com.itexpdf.text.pdf.PdfWriter;
-import com.itexpdf.text.Paragraph;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Paragraph;
 import java.io.FileOutputStream;
-import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Actividad6 {
 
@@ -32,7 +32,7 @@ public class Actividad6 {
 
             tabla.addCell("Guatemala");
             tabla.addCell("Ciudad de Guatemala");
-            tabla.addCell("18 millones");
+            tabla.addCell("17 millones");
 
             tabla.addCell("Mexico");
             tabla.addCell("Ciudad de Mexico");
@@ -42,11 +42,15 @@ public class Actividad6 {
             tabla.addCell("Madrid");
             tabla.addCell("47 millones");
 
+            tabla.addCell("Japon");
+            tabla.addCell("Tokyo");
+            tabla.addCell("125 millones");
+
             documento.add(tabla); //Agregar la tabla al documento
             
             System.out.println("PDF creado exitosamente en: " + this.crearPDF);
         
-        } catch (DocumentException | java.oi.FileNotFoundException e){
+        } catch (DocumentException | FileNotFoundException e){
             e.printStackTrace();
         } finally {
             if (documento.isOpen()) {
@@ -60,10 +64,9 @@ public class Actividad6 {
 class GeneradorDePDF {
 
     public static void main(String[] args) {
-        // 5. Instanciar un objeto de la clase GeneradorDePDF
+        
         Actividad6 miGenerador = new Actividad6("Actividad6.pdf");
         
-        // 6. Llamar a un método del objeto para ejecutar la acción
         miGenerador.paises("Reporte de Países y Capitales");
     }
 }
