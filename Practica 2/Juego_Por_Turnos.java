@@ -11,10 +11,11 @@ public class Juego_Por_Turnos extends JFrame {
     private JTextArea battleLog; // Área de texto para el log de batalla
     private JButton atacarBtn, turnoBtn, agregarBtn, iniciarBtn, buscarBtn, eliminarBtn, bitacoraBtn; // Botones
     private JComboBox<String> jugadorBox, rivalBox; // ComboBoxes para selección de Pokémon
+    private Pokemon jugador, rival; // Pokémon seleccionados
 
     public Juego_Por_Turnos() {
         setTitle("Juego por Turnos Pokémon"); // Titulo de la ventana
-        setSize(700, 500); // Tamaño de la ventana
+        setSize(900, 600); // Tamaño de la ventana
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Cerrar la aplicación al cerrar la ventana
         setLocationRelativeTo(null); // Centrar la ventana
 
@@ -137,16 +138,77 @@ public class Juego_Por_Turnos extends JFrame {
             JOptionPane.showMessageDialog(this, sb.toString()); // Mostrar bitácora
         });
 
-    }
+        iniciarBtn.addActionListener(e -> {
+            int idxJugador = jugadorBox.getSelectedIndex();
+            int idxRival = rivalBox.getSelectedIndex();
+            if (idxJugador == -1 || idxRival == -1 || idxJugador == idxRival) {
+                JOptionPane.showMessageDialog(this, "Selecciona Pokémon válidos.");
+                return;
+            }
+            jugador = new Pokemon(
+                pokematriz[idxJugador][0],
+                Integer.parseInt(pokematriz[idxJugador][1]),
+                Integer.parseInt(pokematriz[idxJugador][2]),
+                Integer.parseInt(pokematriz[idxJugador][3])
+            );
+            rival = new Pokemon(
+                pokematriz[idxRival][0],
+                Integer.parseInt(pokematriz[idxRival][1]),
+                Integer.parseInt(pokematriz[idxRival][2]),
+                Integer.parseInt(pokematriz[idxRival][3])
+            );
+            battleLog.append("¡Comienza la batalla!\n");
+            battleLog.append("Tu Pokémon: " + jugador.nombre + " (HP: " + jugador.hp + ")\n");
+            battleLog.append("Rival: " + rival.nombre + " (HP: " + rival.hp + ")\n");
+            atacarBtn.setEnabled(true);
+            turnoBtn.setEnabled(false);
+            registrarBitacora("Iniciar Batalla", "Correcto");
+        });
 
+        atacarBtn.addActionListener(e -> {
+            if (jugador.hp > 0 && rival.hp > 0) {
+                int dano = Math.max(0, jugador.atk - rival.def);
+                rival.hp -= dano;
+                battleLog.append(jugador.nombre + " ataca y hace " + dano + " de daño a " + rival.nombre + "\n");
+                battleLog.append("HP de " + rival.nombre + ": " + Math.max(0, rival.hp) + "\n");
+                if (rival.hp <= 0) {
+                    battleLog.append("¡Ganaste!\n");
+                    atacarBtn.setEnabled(false);
+                    turnoBtn.setEnabled(false);
+                    registrarBitacora("Fin Batalla", "Ganaste");
+                } else {
+                    atacarBtn.setEnabled(false);
+                    turnoBtn.setEnabled(true);
+                }
+            }
+        });
+
+        turnoBtn.addActionListener(e -> {
+            if (rival.hp > 0 && jugador.hp > 0) {
+                int dano = Math.max(0, rival.atk - jugador.def);
+                jugador.hp -= dano;
+                battleLog.append(rival.nombre + " ataca y hace " + dano + " de daño a " + jugador.nombre + "\n");
+                battleLog.append("HP de " + jugador.nombre + ": " + Math.max(0, jugador.hp) + "\n");
+                if (jugador.hp <= 0) {
+                    battleLog.append("¡Perdiste!\n");
+                    atacarBtn.setEnabled(false);
+                    turnoBtn.setEnabled(false);
+                    registrarBitacora("Fin Batalla", "Perdiste");
+                } else {
+                    atacarBtn.setEnabled(true);
+                    turnoBtn.setEnabled(false);
+                }
+            }
+        });
+    }   
     private void registrarBitacora(String accion, String estado) { // Registrar en bitácora
-        if (bitacoraCount < 100) { // Limitar a 100 entradas
+            if (bitacoraCount < 100) { // Limitar a 100 entradas
             bitacora[bitacoraCount][0] = accion; // Guardar acción
             bitacora[bitacoraCount][1] = estado; // Guardar estado
             bitacoraCount++;
+            }
         }
-    }
-    
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Juego_Por_Turnos().setVisible(true)); // Ejecutar en el hilo de eventos
