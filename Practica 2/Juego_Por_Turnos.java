@@ -138,11 +138,11 @@ public class Juego_Por_Turnos extends JFrame {
             JOptionPane.showMessageDialog(this, sb.toString()); // Mostrar bitácora
         });
 
-        iniciarBtn.addActionListener(e -> {
+        iniciarBtn.addActionListener(e -> {// Acción para iniciar batalla
             int idxJugador = jugadorBox.getSelectedIndex();
             int idxRival = rivalBox.getSelectedIndex();
-            if (idxJugador == -1 || idxRival == -1 || idxJugador == idxRival) {
-                JOptionPane.showMessageDialog(this, "Selecciona Pokémon válidos.");
+            if (idxJugador == -1 || idxRival == -1 || idxJugador == idxRival) { // Validar selección
+                JOptionPane.showMessageDialog(this, "Selecciona Pokémon válidos."); // Mostrar error
                 return;
             }
             jugador = new Pokemon(
@@ -157,7 +157,7 @@ public class Juego_Por_Turnos extends JFrame {
                 Integer.parseInt(pokematriz[idxRival][2]),
                 Integer.parseInt(pokematriz[idxRival][3])
             );
-            battleLog.append("¡Comienza la batalla!\n");
+            battleLog.append("¡Comienza la batalla!\n"); // Mensaje de inicio
             battleLog.append("Tu Pokémon: " + jugador.nombre + " (HP: " + jugador.hp + ")\n");
             battleLog.append("Rival: " + rival.nombre + " (HP: " + rival.hp + ")\n");
             atacarBtn.setEnabled(true);
@@ -165,7 +165,7 @@ public class Juego_Por_Turnos extends JFrame {
             registrarBitacora("Iniciar Batalla", "Correcto");
         });
 
-        atacarBtn.addActionListener(e -> {
+        atacarBtn.addActionListener(e -> { // Acción para atacar
             if (jugador.hp > 0 && rival.hp > 0) {
                 int dano = Math.max(0, jugador.atk - rival.def);
                 rival.hp -= dano;
@@ -183,7 +183,7 @@ public class Juego_Por_Turnos extends JFrame {
             }
         });
 
-        turnoBtn.addActionListener(e -> {
+        turnoBtn.addActionListener(e -> { // Acción para turno del rival
             if (rival.hp > 0 && jugador.hp > 0) {
                 int dano = Math.max(0, rival.atk - jugador.def);
                 jugador.hp -= dano;
