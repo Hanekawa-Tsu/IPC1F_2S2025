@@ -276,7 +276,7 @@ public class Inventario {
             writer.println("Código: " + codigo + ", Cantidad: " + cantidad + ", Fecha y Hora: " + fecha + ", Total: " + total);
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo de ventas: " + e.getMessage());
-         }
+        }
     }
     
     // Ver datos de estudiante
